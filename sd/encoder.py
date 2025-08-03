@@ -92,6 +92,7 @@ class VAE_Encoder(nn.Sequential):
 
           # Z = N(0, 1) ->  N(mean , variance)?
           # X = mean + stdev * Z
+          # x : (batch_size,4,height/8,width/8)
           x = mean + stdev * noise
 
           # Scale the output by constant 

@@ -38,9 +38,7 @@ class VAE_AttentionBlock(nn.Module):
           x += residual
 
           return x
-
-
-
+          
 class VAE_ResidualBlock(nn.Module):
      def __init__(self , in_channels , out_channels):
           super().__init__()

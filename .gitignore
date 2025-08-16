@@ -1,0 +1,39 @@
+# Weights and checkpoints
+*.ckpt
+*.safetensors
+*.bin
+*.pth
+*.pt
+
+# Data directories
+data/
+
+# Cache and temporary files
+.cache/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and outputs
+logs/
+outputs/
+*.log
+
+# Local development
+.env
+.venv/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db

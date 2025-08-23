@@ -34,24 +34,9 @@ class SelfAttention(nn.Module):
         k = k.view(interim_shape).transpose(1, 2)
         v = v.view(interim_shape).transpose(1, 2)
 
-        # (Batch_Size, H, Seq_Len, Dim / H) @ (Batch_Size, H, Dim / H, Seq_Len) -> (Batch_Size, H, Seq_Len, Seq_Len)
-        weight = q @ k.transpose(-1, -2)
-
-        if causal_mask:
-            # Mask where the upper triangle (above the principal diagonal) is 1
-            mask = torch.ones_like(weight, dtype=torch.bool).triu(1)
-            # Fill the upper triangle with -inf
-            weight.masked_fill_(mask, -torch.inf)
-
-        # Divide by d_k (Dim / H).
-        # (Batch_Size, H, Seq_Len, Seq_Len) -> (Batch_Size, H, Seq_Len, Seq_Len)
-        weight /= math.sqrt(self.d_head)
-
-        # (Batch_Size, H, Seq_Len, Seq_Len) -> (Batch_Size, H, Seq_Len, Seq_Len)
-        weight = F.softmax(weight, dim=-1)
-
-        # (Batch_Size, H, Seq_Len, Seq_Len) @ (Batch_Size, H, Seq_Len, Dim / H) -> (Batch_Size, H, Seq_Len, Dim / H)
-        output = weight @ v
+        # More efficient implementation of self-attention.
+        # It combines the scaling, masking, softmax and matrix multiplication into a single call.
+        output = F.scaled_dot_product_attention(q, k, v, is_causal=causal_mask)
 
         # (Batch_Size, H, Seq_Len, Dim / H) -> (Batch_Size, Seq_Len, H, Dim / H)
         output = output.transpose(1, 2)
@@ -99,17 +84,8 @@ class CrossAttention(nn.Module):
         # (Batch_Size, Seq_Len_KV, Dim_Q) -> (Batch_Size, Seq_Len_KV, H, Dim_Q / H) -> (Batch_Size, H, Seq_Len_KV, Dim_Q / H)
         v = v.view(interim_shape).transpose(1, 2)
 
-        # (Batch_Size, H, Seq_Len_Q, Dim_Q / H) @ (Batch_Size, H, Dim_Q / H, Seq_Len_KV) -> (Batch_Size, H, Seq_Len_Q, Seq_Len_KV)
-        weight = q @ k.transpose(-1, -2)
-
-        # (Batch_Size, H, Seq_Len_Q, Seq_Len_KV)
-        weight /= math.sqrt(self.d_head)
-
-        # (Batch_Size, H, Seq_Len_Q, Seq_Len_KV)
-        weight = F.softmax(weight, dim=-1)
-
-        # (Batch_Size, H, Seq_Len_Q, Seq_Len_KV) @ (Batch_Size, H, Seq_Len_KV, Dim_Q / H) -> (Batch_Size, H, Seq_Len_Q, Dim_Q / H)
-        output = weight @ v
+        # More efficient implementation of cross-attention.
+        output = F.scaled_dot_product_attention(q, k, v)
 
         # (Batch_Size, H, Seq_Len_Q, Dim_Q / H) -> (Batch_Size, Seq_Len_Q, H, Dim_Q / H)
         output = output.transpose(1, 2).contiguous()

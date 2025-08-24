@@ -1,4 +1,4 @@
-## Inkpunk Diffusion (PyTorch) — Resume Project
+## Inkpunk Diffusion (PyTorch)
 
 A from-scratch, modular PyTorch re-implementation of an Inkpunk-style Stable Diffusion v1.5 pipeline. I built this to demonstrate hands-on expertise with diffusion models, attention-based UNet **architectures**, CLIP text encoding, and VAE image compression — with clean, readable code and reproducible results across CUDA, Apple Silicon (MPS), and CPU.
 
@@ -38,7 +38,13 @@ Prompt (positive):
 Negative prompt:
 > generic UI overlays, unreadable text blocks, banding, chromatic noise
 
+![Inkpunk 14 — seed 42](outputs/inkpunk_14_seed_42.png)
 
+Prompt (positive):
+> nvinkpunk neon jellyfish city, bioluminescent tendrils, rainbow mist, aerosol dots, ultra detailed
+
+Negative prompt:
+> duplicated tendrils, watery blur, plastic look, low contrast
 
 To add more results, generate with your preferred prompts (see Reproduce My Results) and place the images under `outputs/`. Then embed them here in the same way.
 

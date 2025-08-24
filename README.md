@@ -1,4 +1,4 @@
-**## Inkpunk Diffusion (PyTorch) — Resume Project
+## Inkpunk Diffusion (PyTorch) — Resume Project
 
 A from-scratch, modular PyTorch re-implementation of an Inkpunk-style Stable Diffusion v1.5 pipeline. I built this to demonstrate hands-on expertise with diffusion models, attention-based UNet **architectures**, CLIP text encoding, and VAE image compression — with clean, readable code and reproducible results across CUDA, Apple Silicon (MPS), and CPU.
 
@@ -21,13 +21,24 @@ A from-scratch, modular PyTorch re-implementation of an Inkpunk-style Stable Dif
 
 Below are sample generations produced by the codebase using curated Inkpunk prompts. Each image is reproducible with the listed prompt and seed.
 
-![Inkpunk 23 — seed 42](outputs/inkpunk_inkpunk_23_seed_42.png)
+
+![Inkpunk 2 — seed 42](outputs/inkpunk_2_seed_42.png)
 
 Prompt (positive):
-> nvinkpunk neon taxi drifting in rain, chrome reflections, rainbow streaks, street tags, cinematic, ultra detailed
+> nvinkpunk cyberpunk samurai with neon mask, glowing swords, graffiti wall background, rainbow smoke, vibrant spray paint textures, ultra detailed
 
 Negative prompt:
-> warped wheels, melted chrome, motion smear, muddy puddles
+> flat shading, sticker-like outline, deformed fins, bland palette
+
+![Inkpunk 13 — seed 42](outputs/inkpunk_13_seed_42.png)
+
+Prompt (positive):
+> nvinkpunk hacker shrine, floating keyboards, rainbow cables, CRT glow, graffiti calligraphy, ultra detailed
+
+Negative prompt:
+> generic UI overlays, unreadable text blocks, banding, chromatic noise
+
+
 
 To add more results, generate with your preferred prompts (see Reproduce My Results) and place the images under `outputs/`. Then embed them here in the same way.
 

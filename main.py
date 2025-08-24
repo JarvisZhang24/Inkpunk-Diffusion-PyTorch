@@ -4,6 +4,7 @@ Inkpunk Diffusion Implementation - Main Entry Point
 """
 
 from ast import Dict
+import argparse
 import os
 import torch
 from PIL import Image
@@ -67,75 +68,75 @@ def text_to_image():
     
 
     PROMPTS = {
-        "inkpunk_13": {
+        "inkpunk_1": {
             "pos": "nvinkpunk skull face surfing, sunset sky, rainbow graffiti background, psychedelic spray paint colors, highly detailed",
             "neg": "deformed hands, picture on wall, borders, powerlines, blurry, deformed legs, extra fingers, low-res"
         },
-        "inkpunk_14": {
+        "inkpunk_2": {
             "pos": "nvinkpunk cyberpunk samurai with neon mask, glowing swords, graffiti wall background, rainbow smoke, vibrant spray paint textures, ultra detailed",
             "neg": "blurry, low resolution, disfigured face, cropped body, extra fingers, dull colors"
         },
-        "inkpunk_15": {
+        "inkpunk_3": {
             "pos": "nvinkpunk neon biker, chrome skull helmet, rain-soaked alley, rainbow graffiti splashes, cinematic backlight, ultra detailed, vibrant spray paint textures",
             "neg": "blurry, low-res, extra fingers, deformed hands, cropped limbs, dull colors, watermark, text artifacts"
         },
-        "inkpunk_16": {
+        "inkpunk_4": {
             "pos": "nvinkpunk cyber raven, glowing circuitry feathers, night city skyline, rainbow smoke, graffiti tags, high contrast, ultra detailed",
             "neg": "blurry eyes, double pupils, disfigured beak, jpeg artifacts, posterization, banding, low contrast"
         },
-        "inkpunk_17": {
+        "inkpunk_5": {
             "pos": "nvinkpunk street samurai, neon oni mask, dual katana, holographic stickers, rainbow paint drips, dynamic pose, ultra detailed",
             "neg": "extra arms, broken anatomy, messy background borders, motion blur, low-res"
         },
-        "inkpunk_18": {
+        "inkpunk_6": {
             "pos": "nvinkpunk chrome dragon coiled around antenna tower, lightning, rainbow haze, aerosol paint, sharp highlights, ultra detailed",
             "neg": "swirled patterns, muddy colors, deformed claws, text overlay, frame borders"
         },
-        "inkpunk_19": {
+        "inkpunk_7": {
             "pos": "nvinkpunk synthwave skateboarder, glowing wheels, tunnel of graffiti light, rainbow flare, crisp silhouette, ultra detailed",
             "neg": "cropped feet, extra board, duplicated limbs, compression artifacts, out of frame"
         },
-        "inkpunk_20": {
+        "inkpunk_8": {
             "pos": "nvinkpunk mecha kitsune, neon tail trails, urban rooftop, rainbow spray, volumetric fog, ultra detailed",
             "neg": "extra tails, deformed muzzle, noisy edges, low detail fur"
         },
-        "inkpunk_21": {
+        "inkpunk_9": {
             "pos": "nvinkpunk cyber koi swirling in midair, holographic water, rainbow reflections, ink splatter, ultra detailed",
             "neg": "flat shading, sticker-like outline, deformed fins, bland palette"
         },
-        "inkpunk_22": {
+        "inkpunk_10": {
             "pos": "nvinkpunk glitch monk, floating beads, neon halo, graffiti wall scripture, rainbow smoke, dramatic rim light, ultra detailed",
             "neg": "face distortion, asymmetrical eyes, double nose, low-res"
         },
-        "inkpunk_23": {
+        "inkpunk_11": {
             "pos": "nvinkpunk neon taxi drifting in rain, chrome reflections, rainbow streaks, street tags, cinematic, ultra detailed",
             "neg": "warped wheels, melted chrome, motion smear, muddy puddles"
         },
-        "inkpunk_24": {
+        "inkpunk_12": {
             "pos": "nvinkpunk cyber tiger roaring, paint splash mane, rainbow sparks, dark alley shrine, ultra detailed",
             "neg": "extra teeth, distorted jaw, cross-eye, washed out colors"
         },
-        "inkpunk_25": {
+        "inkpunk_13": {
             "pos": "nvinkpunk hacker shrine, floating keyboards, rainbow cables, CRT glow, graffiti calligraphy, ultra detailed",
             "neg": "generic UI overlays, unreadable text blocks, banding, chromatic noise"
         },
-        "inkpunk_26": {
+        "inkpunk_14": {
             "pos": "nvinkpunk neon jellyfish city, bioluminescent tendrils, rainbow mist, aerosol dots, ultra detailed",
             "neg": "duplicated tendrils, watery blur, plastic look, low contrast"
         },
-        "inkpunk_27": {
+        "inkpunk_15": {
             "pos": "nvinkpunk chrome raven skull totem, rainbow flares, shattered glass, paint drips, high microcontrast, ultra detailed",
             "neg": "overexposed highlights, blown whites, thick borders, text"
         },
-        "inkpunk_28": {
+        "inkpunk_16": {
             "pos": "nvinkpunk desert racer hoverbike, sand neon trail, rainbow heat haze, graffiti decals, cinematic, ultra detailed",
             "neg": "soft focus, mushy edges, duplicated handlebars, warped geometry"
         },
-        "inkpunk_29": {
+        "inkpunk_17": {
             "pos": "nvinkpunk cyber ballerina spin, hologram tutu, rainbow confetti spray, stage graffiti, crisp silhouette, ultra detailed",
             "neg": "broken ankles, extra fingers, tangled limbs, motion ghosting"
         },
-        "inkpunk_30": {
+        "inkpunk_18": {
             "pos": "nvinkpunk shrine fox mask vendor, lantern neon, rainbow smoke, spray paint textures, rain sparkle, ultra detailed",
             "neg": "flat lighting, muddy blacks, cropped face, extra hands, watermark"
         }
@@ -183,13 +184,13 @@ def text_to_image():
             prompt = PROMPTS[selected_prompt_key]['pos']
             uncond_prompt = PROMPTS[selected_prompt_key]['neg']
     
-    print(f"\n🎯 Generating Inkpunk style image...")
-    print(f"📋 Positive prompt: {prompt}")
-    print(f"🚫 Negative prompt: {uncond_prompt}")
-    
+    print(f"\n🎯 Generating Inkpunk style image\n")
+    print(f"📋 Positive prompt: \n {prompt}\n")
+    print(f"🚫 Negative prompt: \n {uncond_prompt}\n")
+
     # Generation parameters optimized for Inkpunk style
     do_cfg = True
-    cfg_scale = 9.0  # Slightly higher for more prompt adherence
+    cfg_scale = 7.5  # Slightly higher for more prompt adherence
     sampler = "ddpm"
     num_inference_steps = 80  # Good balance between quality and speed
     seed = 42
@@ -198,9 +199,17 @@ def text_to_image():
     seed_input = input(f"\nEnter seed (current: {seed}, press Enter to keep): ").strip()
     if seed_input.isdigit():
         seed = int(seed_input)
+
+    # Allow user to modify steps
+    steps_input = input(f"\nEnter number of inference steps (current: {num_inference_steps}, press Enter to keep): ").strip()
+    if steps_input.isdigit():
+        num_inference_steps = int(steps_input)
+
+
     
     # Generate image
     print("🚀 Starting generation...")
+    print(f"🧮 Inference steps: {num_inference_steps}")
     output_image = generate(
         prompt=prompt,
         uncond_prompt=uncond_prompt,
@@ -223,9 +232,9 @@ def text_to_image():
     
     # Create filename with prompt info
     if selected_prompt_key:
-        filename = f"inkpunk_{selected_prompt_key}_seed_{seed}.png"
+        filename = f"{selected_prompt_key}_seed_{seed}.png"
     else:
-        filename = f"inkpunk_custom_seed_{seed}.png"
+        filename = f"custom_steps_{num_inference_steps}_seed_{seed}.png"
     
     output_path = os.path.join(output_dir, filename)
     Image.fromarray(output_image).save(output_path)
@@ -234,7 +243,7 @@ def text_to_image():
     print(f"🎨 Used prompt: {prompt[:100]}...")
 
 
-def image_to_image():
+def image_to_image(steps_override=None):
     """Image-to-image generation example."""
     print("\n🖼️ Image-to-Image Generation")
     
@@ -272,11 +281,15 @@ def image_to_image():
     cfg_scale = 7.5
     strength = 0.8  # How much to change the input image
     sampler = "ddpm"
-    num_inference_steps = 80
+    default_steps = 80
+    num_inference_steps = (
+        steps_override if isinstance(steps_override, int) and steps_override > 0 else default_steps
+    )
     seed = 42
     
     # Generate image
     print("🚀 Starting transformation...")
+    print(f"🧮 Inference steps: {num_inference_steps}")
     output_image = generate(
         prompt=prompt,
         uncond_prompt=uncond_prompt,
@@ -307,6 +320,7 @@ def main():
     """Main application entry point."""
     print("🎨 Stable Diffusion v1.5 - PyTorch Implementation")
     print("=" * 50)
+    
     
     while True:
         print("\n📋 Available options:")

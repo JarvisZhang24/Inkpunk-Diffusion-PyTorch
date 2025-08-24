@@ -8,8 +8,6 @@ assets/
 # Jupyter Notebook
 Stable_Diffusion_v1_5.ipynb
 
-# Outputs
-outputs/
 
 
 __pycache__/

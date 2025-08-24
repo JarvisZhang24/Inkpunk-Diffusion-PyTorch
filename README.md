@@ -46,6 +46,14 @@ Prompt (positive):
 Negative prompt:
 > duplicated tendrils, watery blur, plastic look, low contrast
 
+![Inkpunk 16 — seed 42](outputs/inkpunk_16_seed_42.png)
+
+Prompt (positive):
+> nvinkpunk desert racer hoverbike, sand neon trail, rainbow heat haze, graffiti decals, cinematic, ultra detailed
+
+Negative prompt:
+> soft focus, mushy edges, duplicated handlebars, warped geometry
+
 To add more results, generate with your preferred prompts (see Reproduce My Results) and place the images under `outputs/`. Then embed them here in the same way.
 
 ---

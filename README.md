@@ -162,7 +162,7 @@ Inkpunk_Diffusion/
 │   └── pipeline.py           # Orchestration for generation
 ├── assets/
 │   └── Inkpunk-Diffusion-v2.ckpt # Inkpunk weights
-│   └── tokenizer/               # CLIP tokenizer weights
+│   └── tokenizer/               # CLIP tokenizer 
 │       └── merges.txt           # Merges file
 │       └── vocab.json           # Vocab file
 ├── .env                         # Environment variables(Hugging Face token)
@@ -170,6 +170,7 @@ Inkpunk_Diffusion/
 ├── main.py                   # Interactive CLI
 ├── download_weights.py       # Optional weights helper
 ├── requirements.txt          # Dependencies
+├── Inkpunk_Diffusion_Technical_Overview.md # Technical Overview
 └── README.md
 ```
 

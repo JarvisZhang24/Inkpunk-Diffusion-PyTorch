@@ -5,9 +5,6 @@
 # Assets
 assets/
 
-# Jupyter Notebook
-Stable_Diffusion_v1_5.ipynb
-
-
-
+# Pycache
 __pycache__/
+

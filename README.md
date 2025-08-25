@@ -75,7 +75,7 @@ To add more results, generate with your preferred prompts (see Reproduce My Resu
     - If you need to fetch base SD 1.5 weights for experimentation, configure your Hugging Face token and use the helper script:
       ```bash
       # optional
-      # cp .env.example .env
+      # cp .env 
       # python download_weights.py
       ```
 
@@ -150,7 +150,7 @@ All components are implemented in PyTorch with a clean, modular design for reada
 ## Project **Structure**
 
 ```
-Stable_diffusion/
+Inkpunk_Diffusion/
 ├── src/
 │   ├── models/
 │   │   ├── attention.py      # Self & cross-attention
@@ -161,7 +161,12 @@ Stable_diffusion/
 │   │   └── model_loader.py   # Load/convert SD-compatible weights
 │   └── pipeline.py           # Orchestration for generation
 ├── assets/
-│   └── Inkpunk-Diffusion-v2.ckpt
+│   └── Inkpunk-Diffusion-v2.ckpt # Inkpunk weights
+│   └── tokenizer/               # CLIP tokenizer weights
+│       └── merges.txt           # Merges file
+│       └── vocab.json           # Vocab file
+├── .env                         # Environment variables(Hugging Face token)
+├── outputs/                     # Generated images
 ├── main.py                   # Interactive CLI
 ├── download_weights.py       # Optional weights helper
 ├── requirements.txt          # Dependencies

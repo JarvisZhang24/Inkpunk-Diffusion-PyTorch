@@ -145,6 +145,70 @@ Example additional curated prompts (InkPunk style):
 
 All components are implemented in PyTorch with a clean, modular design for readability and extension.
 
+## Technical Pipeline
+
+The following diagram illustrates the complete text-to-image generation pipeline, showing how each component transforms data through the system:
+
+```mermaid
+graph TD
+    A["Text Input<br/>nvinkpunk cyberpunk samurai"] --> B["CLIP Tokenizer<br/>Text→Token IDs<br/>(1,77)"]
+    
+    B --> C["CLIP Embedding<br/>Token+Position Embeddings<br/>(1,77,768)"]
+    
+    C --> D["12-Layer CLIP Processing<br/>Self-Attention+Feed-Forward<br/>(1,77,768)"]
+    
+    D --> E["Text Context Vector<br/>Positive+Negative Prompts<br/>(2,77,768)"]
+    
+    F["Random Noise Generation<br/>Standard Normal Distribution<br/>(1,4,64,64)"] --> G["DDPM Sampler Init<br/>80 Timesteps<br/>999→0"]
+    
+    G --> H["Iterative Denoising Loop<br/>80 Iterations"]
+    
+    H --> I["Time Embedding<br/>Sinusoidal Encoding<br/>(1,320)"]
+    
+    I --> J["Time Information Expansion<br/>(1,320)→(1,1280)"]
+    
+    E --> K["UNet Encoder Path<br/>Downsampling+Attention<br/>64×64→8×8"]
+    
+    J --> K
+    F --> K
+    
+    K --> L["UNet Bottleneck<br/>Deep Feature Extraction<br/>(1,1280,8,8)"]
+    
+    L --> M["UNet Decoder Path<br/>Upsampling+Skip Connections<br/>8×8→64×64"]
+    
+    M --> N["Noise Prediction<br/>UNet Output Layer<br/>(1,4,64,64)"]
+    
+    N --> O["Classifier-Free Guidance<br/>Conditional vs Unconditional<br/>Noise Mixing"]
+    
+    O --> P["DDPM Sampling Step<br/>Remove Predicted Noise<br/>Update Latent Vector"]
+    
+    P --> Q{"Completed<br/>80 Steps?"}
+    
+    Q -->|No| H
+    Q -->|Yes| R["Final Latent Representation<br/>Fully Denoised<br/>(1,4,64,64)"]
+    
+    R --> S["VAE Decoder<br/>Latent Space→Image Space<br/>(1,4,64,64)→(1,3,512,512)"]
+    
+    S --> T["Post-processing<br/>Normalization+Format Conversion<br/>(-1,1)→(0,255)"]
+    
+    T --> U["Final Output Image<br/>512×512 RGB<br/>Inkpunk Samurai Artwork"]
+
+    style A fill:#e1f5fe
+    style E fill:#f3e5f5
+    style F fill:#fff3e0
+    style R fill:#e8f5e8
+    style U fill:#ffebee
+```
+
+### Key Pipeline Stages:
+
+1. **Text Processing**: CLIP transforms natural language into semantic embeddings
+2. **Noise Initialization**: Pure Gaussian noise in compressed latent space (8× smaller than image space)
+3. **Iterative Denoising**: UNet progressively removes noise guided by text context over 80 steps
+4. **Image Reconstruction**: VAE decoder converts latent representation back to RGB image
+
+For a detailed technical walkthrough, see [Inkpunk_Diffusion_Technical_Overview.md](Inkpunk_Diffusion_Technical_Overview.md).
+
 ---
 
 ## Project **Structure**
